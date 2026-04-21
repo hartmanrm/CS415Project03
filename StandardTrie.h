@@ -1,20 +1,13 @@
 #include <string>
 
-class standardNode {
+class standardTrieNode {
     public:
-        standardNode();
-        void insert(standardNode* root, const std::string& key);
+        standardTrieNode();
+        void insert(standardTrieNode* root, const std::string& key);
 
     private:
-        char value;
-        standardNode* children[26];
+        //char value;
+        standardTrieNode* children[26];
         bool isLeaf;
 };
 
-class StandardTrie{
-    public:
-        void constructTrie(std::string fileName);
-
-    private:
-
-};

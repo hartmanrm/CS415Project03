@@ -2,7 +2,7 @@
 #include <string>
 
 // from geeksforgeeks link provided by dr. gill
-standardNode::standardNode(){
+standardTrieNode::standardTrieNode(){
     // initialize the wordEnd variable with false
     // initialize every index of childNode array with NULL
     isLeaf = false;
@@ -12,31 +12,30 @@ standardNode::standardNode(){
 }
 
 // from geeksforgeeks link provided by dr. gill
-void standardNode::insert(standardNode* root, const std::string& key){
+void standardTrieNode::insert(standardTrieNode* root, const std::string& key){
     // Initialize the curr pointer with the root node
-    standardNode* curr = root;
+    standardTrieNode* curr = root;
 
-    // Iterate across the length of the string
-    for (char c : key) {
-      
+    // Iterate through each char in the string
+    for (int i = 0; i < key.length(); i++){
+        char c = key[i];
+
         // Check if the node exists for the 
         // current character in the Trie
-        if (curr->children[c - 'a'] == nullptr) {
+        if (curr->children[c - 'a'] == nullptr) { 
+            //(c - 'a' gives the index of c in the children array)
+
+            // If node for current character does not exist then make a new node
+            standardTrieNode* newNode = new standardTrieNode();
           
-            // If node for current character does 
-            // not exist then make a new node
-            standardNode* newNode = new standardNode();
-          
-            // Keep the reference for the newly
-            // created node
+            // store the reference for the newly created node
             curr->children[c - 'a'] = newNode;
         }
       
-        // Move the curr pointer to the
-        // newly created node
+        // Move the curr pointer to the newly created node
         curr = curr->children[c - 'a'];
     }
 
-    // Mark the end of the word
+    // when done mark the end of the word
     curr->isLeaf = true;
 }
