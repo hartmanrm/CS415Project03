@@ -1,12 +1,17 @@
+#include <string>
+#include <vector>
 
-class ternaryTrieNode{
+class ternaryTrieNode {
     public:
         ternaryTrieNode* newNode(char data);
-        void insert(ternaryTrieNode** root, char* word);
+        void insert(ternaryTrieNode** root, const std::string& word, int index = 0);
 
-    
+        ternaryTrieNode* findPrefixNode(ternaryTrieNode* root, const std::string& prefix, int index = 0);
+        void collectWords(ternaryTrieNode* node, std::string currentWord, std::vector<std::string>& results);
+        std::vector<std::string> autocomplete(ternaryTrieNode* root, const std::string& prefix);
+
     private:
         char data;
-        unsigned isEndOfString = 1; // True if this character is last character of one of the words
+        bool isEndOfString = false;
         ternaryTrieNode *left, *eq, *right;
 };

@@ -39,3 +39,48 @@ void standardTrieNode::insert(standardTrieNode* root, const std::string& key){
     // when done mark the end of the word
     curr->isLeaf = true;
 }
+
+standardTrieNode* standardTrieNode::findPrefixNode(standardTrieNode* root, const std::string& prefix) {
+    standardTrieNode* curr = root;
+
+    for (int i = 0; i < prefix.length(); i++) {
+        char c = prefix[i];
+
+        if (curr->children[c - 'a'] == nullptr) {
+            return nullptr;
+        }
+
+        curr = curr->children[c - 'a'];
+    }
+
+    return curr;
+}
+
+void standardTrieNode::collectWords(standardTrieNode* node, std::string currentWord, std::vector<std::string>& results) {
+    if (node == nullptr) {
+        return;
+    }
+
+    if (node->isLeaf) {
+        results.push_back(currentWord);
+    }
+
+    for (int i = 0; i < 26; i++) {
+        if (node->children[i] != nullptr) {
+            char nextChar = 'a' + i;
+            collectWords(node->children[i], currentWord + nextChar, results);
+        }
+    }
+}
+
+std::vector<std::string> standardTrieNode::autocomplete(standardTrieNode* root, const std::string& prefix) {
+    std::vector<std::string> results;
+
+    standardTrieNode* prefixNode = findPrefixNode(root, prefix);
+    if (prefixNode == nullptr) {
+        return results;
+    }
+
+    collectWords(prefixNode, prefix, results);
+    return results;
+}
