@@ -1,5 +1,5 @@
 # CS415Project03
-Regina and Caroline CS 415 Project 03b: Auto-complete using Tries
+Regina Hartman and Caroline Zeliger CS 415 Project 03b: Auto-complete using Tries
 
 Credit: We used some code from geeksforgeeks links that Dr. Gill linked on the 
 canvas as templates, then we modified it to fit our own needs
