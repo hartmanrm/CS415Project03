@@ -39,22 +39,33 @@ int main(int argc, char *argv[]){
         std::cout << "Error: Invalid number of arguements. \n" 
             << "Please provide 2 arguements: fileName and flag indicating how strings are searched";
     }
+    std::string fileName = argv[1];
+    std::string caseFlag = argv[2];
 
-    std::string fileName = argv[2];
-    std::ifstream inputFile(fileName);
+    std::ifstream inputFile("input/" + fileName);
     if (!inputFile.is_open()){
         std::cout << "Unable to open file " << fileName << " \n";
         return 1;
     }
 
+    standardTrieNode* standardTrieRoot;
+    ternaryTrieNode* ternaryTrieRoot = nullptr;
+
     //insert into tries
-    std::string currWord;
+    std::string currWord, cleanedWord;
     char currChar;
     while (inputFile >> currWord){
         //use prepString to get the cleaned version of the string to insert it, 
+        cleanedWord = prepString(currWord);
         // use the two insert funtions to insert it into both of the tries
-
+        standardTrieRoot->insert(standardTrieRoot, cleanedWord);
+        const char* wordAsArr = cleanedWord.c_str();
+        ternaryTrieRoot->insert(&ternaryTrieRoot, wordAsArr);
     }
 
+    std::cout << "STANDARD\n" << std::endl;
+    standardTrieRoot->print(standardTrieRoot);
+    std::cout << "\n \n TERNARY\n" << std::endl;
+    ternaryTrieRoot->print(ternaryTrieRoot);
     return 0;
 }

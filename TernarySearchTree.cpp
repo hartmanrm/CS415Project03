@@ -1,4 +1,6 @@
 #include "TernarySearchTree.h"
+#include <iostream>
+
 
 ternaryTrieNode* ternaryTrieNode::newNode(char data){
     ternaryTrieNode* temp = new ternaryTrieNode();
@@ -8,8 +10,8 @@ ternaryTrieNode* ternaryTrieNode::newNode(char data){
     return temp;
 
 }
-/*
-void ternaryTrieNode::insert(ternaryTrieNode** root, char* word){
+
+void ternaryTrieNode::insert(ternaryTrieNode** root, const char* word){
     // Base Case: Tree is empty
     if (!(*root))
         *root = newNode(*word);
@@ -20,7 +22,7 @@ void ternaryTrieNode::insert(ternaryTrieNode** root, char* word){
         insert(&((*root)->left), word);
 
     // If curr char GREATER than root's character, then 
-    // insert this word in RIGHT subtree ofroot
+    // insert this word in RIGHT subtree of root
     else if ((*word) > (*root)->data)
         insert(&((*root)->right), word);
 
@@ -34,32 +36,8 @@ void ternaryTrieNode::insert(ternaryTrieNode** root, char* word){
             (*root)->isEndOfString = 1;
     }
 }
-*/
-void ternaryTrieNode::insert(ternaryTrieNode** root, const std::string& word, int index) {
-    if (word.empty()) return;
 
-    char c = word[index];
-
-    if (*root == nullptr) {
-        *root = newNode(c);
-    }
-
-    if (c < (*root)->data) {
-        insert(&((*root)->left), word, index);
-    }
-    else if (c > (*root)->data) {
-        insert(&((*root)->right), word, index);
-    }
-    else {
-        if (index + 1 < word.length()) {
-            insert(&((*root)->eq), word, index + 1);
-        }
-        else {
-            (*root)->isEndOfString = true;
-        }
-    }
-}
-
+/*
 ternaryTrieNode* ternaryTrieNode::findPrefixNode(ternaryTrieNode* root, const std::string& prefix, int index) {
     if (root == nullptr || prefix.empty()) return nullptr;
 
@@ -77,8 +55,8 @@ ternaryTrieNode* ternaryTrieNode::findPrefixNode(ternaryTrieNode* root, const st
         }
         return findPrefixNode(root->eq, prefix, index + 1);
     }
-}
-
+}*/
+/*
 ternaryTrieNode* ternaryTrieNode::findPrefixNode(ternaryTrieNode* root, const std::string& prefix, int index) {
     if (root == nullptr || prefix.empty()) return nullptr;
 
@@ -95,6 +73,25 @@ ternaryTrieNode* ternaryTrieNode::findPrefixNode(ternaryTrieNode* root, const st
             return root;
         }
         return findPrefixNode(root->eq, prefix, index + 1);
+    }
+}*/
+
+ternaryTrieNode* ternaryTrieNode::findPrefixNode(ternaryTrieNode** root, const char* word){
+    if (root == nullptr || word == nullptr) return nullptr;
+
+    if (*word < (*root)->data){
+        return findPrefixNode(&((*root)->left), word);
+    }
+    else if (*word > (*root)->data){
+        return findPrefixNode(&((*root)->right), word);
+    }
+    else{
+        if (*(word + 1)){
+            return findPrefixNode(&((*root)->eq), word + 1);
+        }
+        else{
+            return *root;
+        }
     }
 }
 
@@ -103,14 +100,56 @@ std::vector<std::string> ternaryTrieNode::autocomplete(ternaryTrieNode* root, co
 
     if (prefix.empty()) return results;
 
-    ternaryTrieNode* prefixNode = findPrefixNode(root, prefix, 0);
+    const char* prefixAsArr = prefix.c_str();
+    ternaryTrieNode* prefixNode = findPrefixNode(&root, prefixAsArr);
     if (prefixNode == nullptr) return results;
 
     if (prefixNode->isEndOfString) {
         results.push_back(prefix);
     }
 
-    collectWords(prefixNode->eq, prefix, results);
+    // collectWords(prefixNode->eq, prefix, results);
 
     return results;
+}
+
+void ternaryTrieNode::collectWords(ternaryTrieNode* node, std::string currentWord, std::vector<std::string>& results) {
+    if (node == nullptr) {
+        return;
+    }
+
+    collectWords(node->left, currentWord, results);
+
+    std::string newWord = currentWord + node->data;
+    if (node->isEndOfString) {
+        results.push_back(newWord);
+    }
+
+    collectWords(node->eq, newWord, results);
+
+    collectWords(node->right, currentWord, results);
+}
+
+// DELETE LATER
+void ternaryTrieNode::print(ternaryTrieNode* node, std::string currentWord) {
+    if (node == nullptr) {
+        return;
+    }
+
+    // Visit left subtree
+    print(node->left, currentWord);
+
+    // Build current word
+    std::string newWord = currentWord + node->data;
+
+    // Print if this node ends a word
+    if (node->isEndOfString) {
+        std::cout << newWord << std::endl;
+    }
+
+    // Visit equal subtree
+    print(node->eq, newWord);
+
+    // Visit right subtree
+    print(node->right, currentWord);
 }

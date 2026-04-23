@@ -1,5 +1,6 @@
 #include "StandardTrie.h"
 #include <string>
+#include <iostream>
 
 // from geeksforgeeks link provided by dr. gill
 standardTrieNode::standardTrieNode(){
@@ -83,4 +84,22 @@ std::vector<std::string> standardTrieNode::autocomplete(standardTrieNode* root, 
 
     collectWords(prefixNode, prefix, results);
     return results;
+}
+
+// DELETE LATER
+void standardTrieNode::print(standardTrieNode* node, std::string currentWord) {
+    if (node == nullptr) {
+        return;
+    }
+
+    if (node->isLeaf) {
+        std::cout << currentWord << std::endl;
+    }
+
+    for (int i = 0; i < 26; i++) {
+        if (node->children[i] != nullptr) {
+            char nextChar = 'a' + i;
+            print(node->children[i], currentWord + nextChar);
+        }
+    }
 }
