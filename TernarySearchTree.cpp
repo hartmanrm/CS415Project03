@@ -1,9 +1,6 @@
 #include "TernarySearchTree.h"
 #include <iostream>
-/*
-ternaryTrieNode::ternaryTrieNode(){
-    buildTime = 0;
-} */
+
 
 ternaryTrieNode* ternaryTrieNode::newNode(char data){
     ternaryTrieNode* temp = new ternaryTrieNode();
@@ -19,13 +16,14 @@ void ternaryTrieNode::insert(ternaryTrieNode** root, const char* word){
         return;
     }
     // Base Case: Tree is empty
+    buildTime++;
     if (!(*root)){
         *root = newNode(*word);
     }
 
     // If current char is SMALLER than root's character, then 
     // insert this word in LEFT subtree of root
-    buildTime++;
+    
     if ((*word) < (*root)->data){
         insert(&((*root)->left), word);
     }
@@ -45,56 +43,17 @@ void ternaryTrieNode::insert(ternaryTrieNode** root, const char* word){
     }
 }
 
-/*
-ternaryTrieNode* ternaryTrieNode::findPrefixNode(ternaryTrieNode* root, const std::string& prefix, int index) {
-    if (root == nullptr || prefix.empty()) return nullptr;
-
-    char c = prefix[index];
-
-    if (c < root->data) {
-        return findPrefixNode(root->left, prefix, index);
-    }
-    else if (c > root->data) {
-        return findPrefixNode(root->right, prefix, index);
-    }
-    else {
-        if (index == prefix.length() - 1) {
-            return root;
-        }
-        return findPrefixNode(root->eq, prefix, index + 1);
-    }
-}*/
-/*
-ternaryTrieNode* ternaryTrieNode::findPrefixNode(ternaryTrieNode* root, const std::string& prefix, int index) {
-    if (root == nullptr || prefix.empty()) return nullptr;
-
-    char c = prefix[index];
-
-    if (c < root->data) {
-        return findPrefixNode(root->left, prefix, index);
-    }
-    else if (c > root->data) {
-        return findPrefixNode(root->right, prefix, index);
-    }
-    else {
-        if (index == prefix.length() - 1) {
-            return root;
-        }
-        return findPrefixNode(root->eq, prefix, index + 1);
-    }
-}*/
-
 ternaryTrieNode* ternaryTrieNode::findPrefixNode(ternaryTrieNode** root, const char* word){
     timeOfLastSearch = 0;
     return findPrefixNodeRecursive(root, word);
 }
 
 ternaryTrieNode* ternaryTrieNode::findPrefixNodeRecursive(ternaryTrieNode** root, const char* word){
-    if (root == nullptr || word == nullptr) {
-        timeOfLastSearch++;
+    timeOfLastSearch++;
+    
+    if (root == nullptr || word == nullptr || *root == nullptr) {
         return nullptr;
     }
-    timeOfLastSearch++;
     if (*word < (*root)->data){
         return findPrefixNode(&((*root)->left), word);
     }

@@ -1,16 +1,19 @@
 # CS415Project03
 Regina and Caroline CS 415 Project 03b: Auto-complete using Tries
 
-For flag = 1 it will continue to ask for a new search string until a blank line is entered.
+Credit: We used some code from geeksforgeeks links that Dr. Gill linked on the 
+canvas as templates, then we modified it to fit our own needs
 
-Variables still needed for printing in the main:
-   x - Time taken to build the standard Trie
-   this is the one i was telling you might not be correct - Space occupied by standard Trie
-   x - Time taken to build the BST based Trie
-   this is the one i was telling you might not be correct - Space occupied by the BST based Trie
-   x - Time taken to search in the standard Trie
-   x - Time taken to find auto-complete in the standard Trie
-   x - Time taken to search in the BST based Trie
-   x - Time taken to find auto-complete in the BST based Trie
+To Run Code:
+Compile:
+    g++ g++ *.cpp
+Execute:
+    ./a.out FILENAME.txt CASE_NUMBER
+Input:
+    To test data files that were provided on the canvas page, enter the 
+    file name (ex: "test2.txt") as the first command line arg after a.out
+    To test data files not included on the canvas, put the file into the 
+    "input" folder prior to running the program.
 
-   x - Time taken to search all strings in either case can be found by adding up all of the individual search times
+For flag = 1 it will continue to ask for a new search string until the user 
+enters the word "exit".

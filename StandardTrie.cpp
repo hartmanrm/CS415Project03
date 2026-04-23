@@ -2,7 +2,7 @@
 #include <string>
 #include <iostream>
 
-// from geeksforgeeks link provided by dr. gill
+
 standardTrieNode::standardTrieNode(){
     //buildTime = 0;
     // initialize the wordEnd variable with false
@@ -14,7 +14,7 @@ standardTrieNode::standardTrieNode(){
     totalSpace += 26;
 }
 
-// from geeksforgeeks link provided by dr. gill
+
 void standardTrieNode::insert(standardTrieNode* root, const std::string& key){
     // Initialize the curr pointer with the root node
     standardTrieNode* curr = root;
@@ -46,6 +46,10 @@ void standardTrieNode::insert(standardTrieNode* root, const std::string& key){
 standardTrieNode* standardTrieNode::findPrefixNode(standardTrieNode* root, const std::string& prefix) {
     standardTrieNode* curr = root;
     timeOfLastSearch = 0;
+    if (root == nullptr) {
+        return nullptr;
+    }
+
     for (int i = 0; i < prefix.length(); i++) {
         char c = prefix[i];
 
