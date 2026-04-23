@@ -45,10 +45,11 @@ void standardTrieNode::insert(standardTrieNode* root, const std::string& key){
 
 standardTrieNode* standardTrieNode::findPrefixNode(standardTrieNode* root, const std::string& prefix) {
     standardTrieNode* curr = root;
-
+    timeOfLastSearch = 0;
     for (int i = 0; i < prefix.length(); i++) {
         char c = prefix[i];
 
+        timeOfLastSearch++;
         if (curr->children[c - 'a'] == nullptr) {
             return nullptr;
         }
@@ -60,6 +61,7 @@ standardTrieNode* standardTrieNode::findPrefixNode(standardTrieNode* root, const
 }
 
 void standardTrieNode::collectWords(standardTrieNode* node, std::string currentWord, std::vector<std::string>& results) {
+    timeOfLastAutoComplete++;
     if (node == nullptr) {
         return;
     }
@@ -84,7 +86,9 @@ std::vector<std::string> standardTrieNode::autocomplete(standardTrieNode* root, 
         return results;
     }
 
+    timeOfLastAutoComplete = 0;
     collectWords(prefixNode, prefix, results);
+    timeOfLastAutoComplete += timeOfLastSearch;
     return results;
 }
 

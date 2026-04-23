@@ -85,8 +85,16 @@ ternaryTrieNode* ternaryTrieNode::findPrefixNode(ternaryTrieNode* root, const st
 }*/
 
 ternaryTrieNode* ternaryTrieNode::findPrefixNode(ternaryTrieNode** root, const char* word){
-    if (root == nullptr || word == nullptr) return nullptr;
+    timeOfLastSearch = 0;
+    return findPrefixNodeRecursive(root, word);
+}
 
+ternaryTrieNode* ternaryTrieNode::findPrefixNodeRecursive(ternaryTrieNode** root, const char* word){
+    if (root == nullptr || word == nullptr) {
+        timeOfLastSearch++;
+        return nullptr;
+    }
+    timeOfLastSearch++;
     if (*word < (*root)->data){
         return findPrefixNode(&((*root)->left), word);
     }
@@ -116,12 +124,14 @@ std::vector<std::string> ternaryTrieNode::autocomplete(ternaryTrieNode* root, co
         results.push_back(prefix);
     }
 
+    timeOfLastAutoComplete = 0;
     collectWords(prefixNode->eq, prefix, results);
-
+    timeOfLastAutoComplete += timeOfLastSearch;
     return results;
 }
 
 void ternaryTrieNode::collectWords(ternaryTrieNode* node, std::string currentWord, std::vector<std::string>& results) {
+    timeOfLastAutoComplete++;
     if (node == nullptr) {
         return;
     }

@@ -54,6 +54,71 @@ int main(int argc, char *argv[]){
         ternaryTrieObject.insert(&ternaryTrieRoot, wordAsArr);
     }
 
+    // Moved into regular main function:
+    // Case 1
+    if (caseFlag == "1") {
+        std::cout << "Time taken to build the standard Trie is " << standardTrieRoot->getBuildTime() << " and space occupied by it is " << standardTrieRoot->getTotalSpace() << "\n";
+        std::cout << "Time taken to build the BST based Trie is " << ternaryTrieObject.getBuildTime() << " and space occupied by it is " << ternaryTrieObject.getTotalSpace() << "\n\n";
+        
+        std::cout << "Enter search string: ";
+        std::string searchString;
+        std::cin >> searchString;
+        while (searchString != "") {
+            // Standard Trie
+            std::vector<std::string> printVector = standardTrieRoot->autocomplete(standardTrieRoot, searchString);
+            std::cout << "Time taken to search in the standard Trie is " << standardTrieRoot->getSearchTime() << "\n";
+            std::cout << "Auto-complete results using standard Trie are: ";
+            
+            for (int i=0; i<printVector.size(); i++) {
+                std::cout << printVector.at(i);
+                if (i != printVector.size()-1) {
+                    std::cout << ", ";
+                }
+            }
+            std::cout << "\n" << "Time taken to find auto-complete results in the standard Trie is " << standardTrieRoot->getAutoCompleteTime() << "\n\n";
+
+            // BST Based Trie
+            printVector = ternaryTrieRoot->autocomplete(ternaryTrieRoot, searchString);
+            std::cout << "Time taken to search in the BST based Trie is " << ternaryTrieRoot->getSearchTime() << "\n";
+            std::cout << "Auto-complete results using BST based Trie are: ";
+            
+            for (int i=0; i<printVector.size(); i++) {
+                std::cout << printVector.at(i);
+                if (i != printVector.size()-1) {
+                    std::cout << ", ";
+                }
+            }
+            std::cout << "\n" << "Time taken to find auto-complete results in the BST based Trie is " << ternaryTrieRoot->getAutoCompleteTime() << "\n\n";
+            
+            std::cout << "Enter search string: ";
+            std::cin >> searchString;
+        }
+        std::cout << "\n\n";
+        return 0;
+    }
+
+    // Case 2
+    else if (caseFlag == "2") {
+        std::cout << "Time taken to build the standard Trie is " << standardTrieRoot->getBuildTime() << " and space occupied by it is " << standardTrieRoot->getTotalSpace() << "\n";
+        std::cout << "Time taken to build the BST based Trie is " << ternaryTrieObject.getBuildTime() << " and space occupied by it is " << ternaryTrieObject.getTotalSpace() << "\n\n";
+        
+        int StandardAllSearchTime = 0;
+        int BSTAllSearchTime = 0;
+        for (int i=0; i<allWords.size(); i++) {
+            standardTrieRoot->findPrefixNode(standardTrieRoot, allWords.at(i));
+            StandardAllSearchTime += standardTrieRoot->getSearchTime();
+        }
+        for (int i=0; i<allWords.size(); i++) {
+            const char* prefixAsArr = allWords.at(i).c_str();
+            ternaryTrieRoot->findPrefixNode(&ternaryTrieRoot, prefixAsArr);
+            BSTAllSearchTime += ternaryTrieRoot->getSearchTime();
+        }
+        std::cout << "Time taken to search all the strings in the standard Trie is " << StandardAllSearchTime << "\n";
+        std::cout << "Time taken to search all the strings in the BST based Trie is " << BSTAllSearchTime << "\n\n";
+        return 0;
+    }
+
+    /*
     //REGINA SLOP
     std::cout << "STANDARD\n" << std::endl;
     standardTrieRoot->print(standardTrieRoot);
@@ -65,60 +130,5 @@ int main(int argc, char *argv[]){
     std::cout <<  "\n\nTernary build time: " << ternaryTrieObject.getBuildTime();
     std::cout <<  "\n Ternary space: " << ternaryTrieObject.getTotalSpace() << "\n";
     return 0;
-}
-
-// Slightly less slop
-int actualMain() {
-    // Case 1
-    //if (caseFlag == 1) {
-        std::cout << "Time taken to build the standard Trie is " << "STANDARD TIME VARIABLE" << "and space occupied by it is " << "STANDARD SPACE VARIABLE" << std::endl;
-        std::cout << "Time taken to build the BST based Trie is " << "BST TIME VARIABLE" << "and space occupied by it is " << "BST SPACE VARIABLE" << "\n\n";
-        
-        std::cout << "Enter search string: ";
-        std::string searchString;
-        std::cin >> searchString;
-        while (searchString != "") {
-            // Standard Trie
-            std::cout << "Time taken to search in the standard Trie is " << "STANDARD SEARCH TIME VARIABLE" << "\n";
-            std::cout << "Auto-complete results using standard Trie are: ";
-            std::vector<std::string> printVector /* = standardTrieRoot->autocomplete(standardTrieRoot, searchString) */;
-            for (int i=0; i<printVector.size(); i++) {
-                std::cout << printVector.at(i);
-                if (i != printVector.size()-1) {
-                    std::cout << ", ";
-                }
-            }
-            std::cout << "Time taken to find auto-complete results in the standard Trie is " << "STANDARD AUTO-COMPLETE TIME" << "\n";
-
-            // BST Based Trie
-            std::cout << "Time taken to search in the BST based Trie is " << "BST SEARCH TIME VARIABLE" << "\n";
-            std::cout << "Auto-complete results using BST based Trie are: ";
-            // printVector = ternaryTrieRoot->autocomplete(ternaryTrieRoot, searchString);
-            for (int i=0; i<printVector.size(); i++) {
-                std::cout << printVector.at(i);
-                if (i != printVector.size()-1) {
-                    std::cout << ", ";
-                }
-            }
-            std::cout << "Time taken to find auto-complete results in the BST based Trie is " << "BST AUTO-COMPLETE TIME" << "\n";
-        }
-    //}
-
-    /*
-    if (caseFlag == 2) {
-        std::cout << "Time taken to build the standard Trie is " << "STANDARD TIME VARIABLE" << " and space occupied by it is " << "STANDARD SPACE VARIABLE" << "\n";
-        std::cout << "Time taken to build the BST based Trie is " << "BST TIME VARIABLE" << " and space occupied by it is " << "BST SPACE VARIABLE" << "\n";
-        
-        int StandardAllSearchTime = 0;
-        int BSTAllSearchTime = 0;
-        for (int i=0; i<allWords.size(); i++) {
-            standardTrieRoot->findPrefixNode(standardTrieRoot, allWords.at(i));
-            
-        }
-    }
     */
-
-
-    
-    return 0;
 }

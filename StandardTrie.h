@@ -14,8 +14,10 @@ class standardTrieNode {
         //int buildTime = 0;
         int getBuildTime(){return buildTime;}
         int getTotalSpace(){return totalSpace;}
+        int getSearchTime() {return timeOfLastSearch;}
+        int getAutoCompleteTime() {return timeOfLastAutoComplete;}
     private:
-        int buildTime = 0, totalSpace = 0;
+        int buildTime = 0, totalSpace = 0, timeOfLastSearch = 0, timeOfLastAutoComplete = 0;
         standardTrieNode* children[26];
         bool isLeaf;
 };
