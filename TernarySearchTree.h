@@ -3,7 +3,7 @@
 
 class ternaryTrieNode {
     public:
-        //ternaryTrieNode(){root = nullptr;}
+        //ternaryTrieNode();
         ternaryTrieNode* newNode(char data);
         void insert(ternaryTrieNode** root, const char* word);
 
@@ -13,7 +13,10 @@ class ternaryTrieNode {
         std::vector<std::string> autocomplete(ternaryTrieNode* root, const std::string& prefix);
 
         void print(ternaryTrieNode* node, std::string currentWord = "");
+        int getBuildTime(){return buildTime;}
+        int getTotalSpace(){return totalSpace;}
     private:
+        int buildTime = 0, totalSpace = 0;
         char data;
         bool isEndOfString = false;
         ternaryTrieNode *left, *eq, *right;

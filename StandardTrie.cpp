@@ -4,12 +4,14 @@
 
 // from geeksforgeeks link provided by dr. gill
 standardTrieNode::standardTrieNode(){
+    //buildTime = 0;
     // initialize the wordEnd variable with false
     // initialize every index of childNode array with NULL
     isLeaf = false;
     for (int i = 0; i < 26; i++) {
         children[i] = nullptr;
     }
+    totalSpace += 26;
 }
 
 // from geeksforgeeks link provided by dr. gill
@@ -21,19 +23,19 @@ void standardTrieNode::insert(standardTrieNode* root, const std::string& key){
     for (int i = 0; i < key.length(); i++){
         char c = key[i];
 
-        // Check if the node exists for the 
-        // current character in the Trie
-        if (curr->children[c - 'a'] == nullptr) { 
-            //(c - 'a' gives the index of c in the children array)
+        buildTime++; //only needs to do one comparison to see if node already exists
+
+        // Check if the node exists for the current character in the Trie
+        if (curr->children[c - 'a'] == nullptr) { //(c - 'a' gives the index of c in the children array)
 
             // If node for current character does not exist then make a new node
             standardTrieNode* newNode = new standardTrieNode();
-          
+            totalSpace += 26;
             // store the reference for the newly created node
             curr->children[c - 'a'] = newNode;
         }
       
-        // Move the curr pointer to the newly created node
+        // Move the curr pointer to the newly created node, or the node that already existed
         curr = curr->children[c - 'a'];
     }
 

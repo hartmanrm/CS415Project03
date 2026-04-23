@@ -11,7 +11,11 @@ class standardTrieNode {
         std::vector<std::string> autocomplete(standardTrieNode* root, const std::string& prefix);
 
         void print(standardTrieNode* node, std::string currentWord = "");
+        //int buildTime = 0;
+        int getBuildTime(){return buildTime;}
+        int getTotalSpace(){return totalSpace;}
     private:
+        int buildTime = 0, totalSpace = 0;
         standardTrieNode* children[26];
         bool isLeaf;
 };

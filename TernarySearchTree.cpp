@@ -1,39 +1,47 @@
 #include "TernarySearchTree.h"
 #include <iostream>
-
+/*
+ternaryTrieNode::ternaryTrieNode(){
+    buildTime = 0;
+} */
 
 ternaryTrieNode* ternaryTrieNode::newNode(char data){
     ternaryTrieNode* temp = new ternaryTrieNode();
     temp->data = data;
     temp->isEndOfString = 0;
     temp->left = temp->eq = temp->right = nullptr;
+    totalSpace += 3;
     return temp;
-
 }
 
 void ternaryTrieNode::insert(ternaryTrieNode** root, const char* word){
+    if (word == nullptr || *word == '\0'){
+        return;
+    }
     // Base Case: Tree is empty
-    if (!(*root))
+    if (!(*root)){
         *root = newNode(*word);
+    }
 
     // If current char is SMALLER than root's character, then 
     // insert this word in LEFT subtree of root
-    if ((*word) < (*root)->data)
+    buildTime++;
+    if ((*word) < (*root)->data){
         insert(&((*root)->left), word);
-
+    }
     // If curr char GREATER than root's character, then 
     // insert this word in RIGHT subtree of root
-    else if ((*word) > (*root)->data)
+    else if ((*word) > (*root)->data){
         insert(&((*root)->right), word);
-
+    }
     // If current character of word is same as root's character,
     else {
-        if (*(word + 1))
+        if (*(word + 1)){
             insert(&((*root)->eq), word + 1);
-
-        // the last character of the word
-        else
+        }
+        else { // the last character of the word
             (*root)->isEndOfString = 1;
+        }
     }
 }
 
@@ -108,7 +116,7 @@ std::vector<std::string> ternaryTrieNode::autocomplete(ternaryTrieNode* root, co
         results.push_back(prefix);
     }
 
-    // collectWords(prefixNode->eq, prefix, results);
+    collectWords(prefixNode->eq, prefix, results);
 
     return results;
 }
